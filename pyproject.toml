@@ -1,0 +1,84 @@
+[project]
+name = "autometrics"
+version = "0.1.0"
+description = "Automated metrics dashboard using FastAPI, n8n and AI"
+authors = [
+    { name = "Kevin Herrera", email = "114835840+kevinhc2110@users.noreply.github.com" }
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+
+dependencies = [
+    # Core - dependencias mínimas básicas
+    "python-dotenv>=1.0",
+    "pydantic-settings>=2.2"
+]
+
+[dependency-groups]
+# API y backend
+api = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "gunicorn>=21",
+    "httpx>=0.27",
+    "sqlalchemy>=2.0",
+    "asyncpg>=0.29",
+    "alembic>=1.13"
+]
+
+# Dashboard y visualización
+dashboard = [
+    "streamlit>=1.31",
+    "pandas>=2.2",
+    "plotly>=5.19",
+    "openpyxl>=3.1",
+    "reportlab>=4.0"
+]
+
+# AI y LLM
+ai = [
+    "openai>=1.12",
+    "langchain>=0.1"
+]
+dev = [
+    "black>=24.1",
+    "isort>=5.13", 
+    "ruff>=0.2",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23"
+]
+
+# -------------------------
+# FORMATTERS
+# -------------------------
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+
+# -------------------------
+# LINT
+# -------------------------
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I"]
+
+# -------------------------
+# PYTEST
+# -------------------------
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+# -------------------------
+# BUILD
+# -------------------------
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

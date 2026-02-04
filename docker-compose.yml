@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+      - ./dashboard:/app/dashboard
+    command: >
+      sh -c "if [ \"$ENV\" = 'prod' ]; then
+        gunicorn autometrics.main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --workers 4 --log-level info;
+      else
+        uvicorn autometrics.main:app --host 0.0.0.0 --port 8000 --reload;
+      fi"
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    volumes:
+      - ./dashboard:/app/dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - ENV=${ENV:-dev}
+
+  n8n:
+    image: n8nio/n8n
+    ports:
+      - "5678:5678"
+    volumes:
+      - ./n8n:/home/node/.n8n
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin

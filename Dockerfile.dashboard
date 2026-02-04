@@ -1,0 +1,20 @@
+FROM python:3.13.9-slim
+
+WORKDIR /app
+
+# Copiar archivos de Poetry
+COPY pyproject.toml poetry.lock /app/
+
+# Instalar Poetry y solo las dependencias del dashboard
+RUN pip install --upgrade pip && \
+    pip install poetry && \
+    poetry config virtualenvs.create false && \
+    poetry install --only=dashboard --no-root
+
+# Copiar código del dashboard
+COPY dashboard ./dashboard
+
+EXPOSE 8501
+
+# Comando por defecto
+CMD ["streamlit", "run", "dashboard/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
