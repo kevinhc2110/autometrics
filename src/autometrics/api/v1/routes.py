@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
-from typing import Dict, Any
 import logging
+from typing import Any, Dict
+
+from fastapi import APIRouter, HTTPException
 
 logger = logging.getLogger("autometrics")
 router = APIRouter()

@@ -1,22 +1,14 @@
-from fastapi import APIRouter
 from datetime import datetime
+
+from fastapi import APIRouter
+
 from autometrics.core.config import settings
 
 router = APIRouter()
 
 @router.get("/health")
 async def health_check():
-    """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
-        "version": settings.VERSION,
-        "environment": settings.ENV
-    }
-
-@router.get("/health/detailed")
-async def detailed_health_check():
-    """Detailed health check with more information"""
+    """Realiza una verificación de salud de la API"""
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
@@ -26,3 +18,4 @@ async def detailed_health_check():
         "api_version": settings.API_V1_STR,
         "debug_mode": settings.DEBUG
     }
+

@@ -1,9 +1,9 @@
 import logging
 import sys
-from typing import Any, Dict
+
 
 def setup_logging(level: str = "INFO") -> None:
-    """Configurar el sistema de logging"""
+    """Configura el sistema de logging para la aplicación."""
     
     # Configuración básica
     logging.basicConfig(
@@ -17,6 +17,7 @@ def setup_logging(level: str = "INFO") -> None:
     # Configurar loggers específicos
     logging.getLogger("uvicorn").setLevel(logging.INFO)
     logging.getLogger("fastapi").setLevel(logging.INFO)
+    logging.getLogger("uvicorn.access").setLevel(logging.WARNING) 
     
     # Logger para la aplicación
     logger = logging.getLogger("autometrics")
